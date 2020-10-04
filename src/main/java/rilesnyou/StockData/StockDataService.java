@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import rilesnyou.StockData.Grabbers.result;
+import rilesnyou.StockData.Grabbers.resultResponse;
+
 @Service
 public class StockDataService {
 	private RestTemplate rt;
@@ -25,13 +28,13 @@ public class StockDataService {
 		};
 		rt = new RestTemplateBuilder().additionalInterceptors(interceptor).build();
 	}
-//	public List<OptionChain> searchOptions(String search) {
-//		UriComponentsBuilder b = UriComponentsBuilder.fromHttpUrl("https://yahoo-finance-low-latency.p.rapidapi.com/v7/finance/options/");
-//		b.queryParam("q", search);
-//		b.queryParam("api_key", apiKey);
-//		URI url = b.build().toUri();
-//		OptionResponse respone = rt.getForObject(url, OptionChain.class);
-//		System.out.println(url);
-//		return response.getResults();
-//	}
+	public List<result> searchOptions(String search) {
+		UriComponentsBuilder b = UriComponentsBuilder.fromHttpUrl("https://yahoo-finance-low-latency.p.rapidapi.com/v7/finance/options/");
+		b.queryParam("q", search);
+		b.queryParam("api_key", apiKey);
+		URI url = b.build().toUri();
+		resultResponse response = rt.getForObject(url, resultResponse.class);
+		System.out.println(url);
+		return response.getOpRes();
+	}
 }
